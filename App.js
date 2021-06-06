@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { View, Text } from "react-native";
 import * as firebase from "firebase";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -24,22 +25,64 @@ if (firebase.apps.length === 0) {
 const Stack = createStackNavigator();
 
 export class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loaded: false,
+    };
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        this.setState({
+          loggedIn: false,
+          loaded: true,
+        });
+      } else {
+        this.setState({
+          loggedIn: true,
+          loaded: true,
+        });
+      }
+    });
+  }
+
   render() {
+    const { loggedIn, loaded } = this.state;
+
+    if (!loaded) {
+      return (
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          <Text>Loading</Text>
+        </View>
+      );
+    }
+
+    if (!loggedIn) {
+      return (
+        <NavigationContainer>
+          <Stack.Navigator initialRoute="Landing">
+            <Stack.Screen
+              name="Landing"
+              component={LandingScreen}
+              options={{ headerShown: true }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={RegisterScreen}
+              options={{ headerShown: true }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      );
+    }
+
     return (
-      <NavigationContainer>
-        <Stack.Navigator initialRoute="Landing">
-          <Stack.Screen
-            name="Landing"
-            component={LandingScreen}
-            options={{ headerShown: true }}
-          />
-          <Stack.Screen
-            name="Register"
-            component={RegisterScreen}
-            options={{ headerShown: true }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <Text>User is Logged In</Text>
+      </View>
     );
   }
 }
