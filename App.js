@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import LandingScreen from "./components/auth/Landing";
+import RegisterScreen from "./components/auth/Register";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDSZserBUBfBduExqrsrGM4MIcMJi5bjKE",
@@ -31,7 +32,12 @@ export default function App() {
           name="Landing"
           component={LandingScreen}
           options={{ headerShown: true }}
-        ></Stack.Screen>
+        />
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
+          options={{ headerShown: true }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
