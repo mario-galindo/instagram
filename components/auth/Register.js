@@ -7,11 +7,11 @@ export class Register extends Component {
   constructor(props) {
     super(props);
 
-    this.state({
+    this.state = {
       email: "",
       password: "",
       name: "",
-    });
+    };
 
     this.onSignUp = this.onSignUp.bind(this);
   }
