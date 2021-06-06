@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import { USER_STATE_CHANGE } from "../constans/index";
 
 export function fetchUser() {
   return (dispatch) => {
