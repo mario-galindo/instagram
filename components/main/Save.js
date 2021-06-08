@@ -5,7 +5,7 @@ import firebase from "firebase";
 require("firebase/firestore");
 require("firebase/firebase-storage");
 
-export default function Save(props) {
+export default function Save(props, { navigation }) {
   //console.log(props.route.params.image);
   const [caption, setCaption] = useState("");
 
@@ -29,6 +29,7 @@ export default function Save(props) {
 
     const taskCompleted = () => {
       task.snapshot.ref.getDownloadURL().then((snapshot) => {
+        savePostData(snapshot);
         console.log(snapshot);
       });
     };
@@ -37,7 +38,23 @@ export default function Save(props) {
       console.log(snapshot);
     };
 
-    task.on("state_changed", taskProgress, taskError,taskCompleted);
+    task.on("state_changed", taskProgress, taskError, taskCompleted);
+  };
+
+  const savePostData = (downloadURL) => {
+    firebase
+      .firestore()
+      .collection("posts")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("userPosts")
+      .add({
+        downloadURL,
+        caption,
+        creation: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then(function () {
+        props.navigation.popToTop();
+      });
   };
 
   return (
