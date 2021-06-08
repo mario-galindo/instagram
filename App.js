@@ -13,7 +13,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import LandingScreen from "./components/auth/Landing";
 import RegisterScreen from "./components/auth/Register";
-import MainScreen from './components/Main';
+import MainScreen from "./components/Main";
+import AddScreen from "./components/main/Add";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDSZserBUBfBduExqrsrGM4MIcMJi5bjKE",
@@ -88,7 +89,16 @@ export class App extends Component {
 
     return (
       <Provider store={store}>
-        <MainScreen/>
+        <NavigationContainer>
+          <Stack.Navigator initialRoute="Main">
+            <Stack.Screen
+              name="Main"
+              component={MainScreen}
+              options={{ headerShown: true }}
+            />
+            <Stack.Screen name="Add" component={AddScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </Provider>
     );
   }
