@@ -24,7 +24,7 @@ export default function Add({navigation}) {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync(null);
-      console.log(data.uri);
+      //console.log(data.uri);
       setImage(data.uri);
     }
   };
